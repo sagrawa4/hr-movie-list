@@ -26,8 +26,8 @@ class MovieSearch extends React.Component {
         this.state.newMovieArray.push(originalMovieArray[i].title);
       }
     }*/
-    console.log(this.props.searchList);
-    console.log(e.target.value);
+    console.log("this.props.searchList", this.props.searchList);
+    console.log("this.state.value", this.state.value,);
     e.preventDefault();
 
     this.props.updatingMovies(this.state.value, this.props.searchList);

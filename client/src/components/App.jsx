@@ -1,4 +1,5 @@
 import React from 'react';
+import MovieAdded from './MovieAdded.jsx';
 import MovieList from './MovieList.jsx';
 import MovieSearch from './MovieSearch.jsx';
 import UpdateMovieList from './UpdateMovieList.jsx';
@@ -8,10 +9,12 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      newMovieArray: []
+      newMovieArray: [],
+      movieArray: []
     }
 
     this.updatingMovies = this.updatingMovies.bind(this);
+    this.addMovies = this.addMovies.bind(this);
   }
 
   updatingMovies(value, oldMovieArray) {
@@ -20,29 +23,39 @@ class App extends React.Component {
 
     const newMovieArray = [...this.state.newMovieArray];
     for( var i=0; i< oldMovieArray.length;i++) {
-      if( JSON.stringify(oldMovieArray[i].title) === JSON.stringify(value)) {
-        newMovieArray.push(oldMovieArray[i].title);
+      if( JSON.stringify(oldMovieArray[i]) === JSON.stringify(value)) {
+        newMovieArray.push(oldMovieArray[i]);
       }
     }
     this.setState({newMovieArray: newMovieArray});
     console.log(newMovieArray);
+    console.log(this.state.movieArray);
   }
+
+  addMovies(value) {
+    const movieArray = [...this.state.movieArray, value];
+    this.setState({movieArray: movieArray});
+  }
+
  render() {
 
   return (
     <div className='App'>
-       <MovieSearch searchList = {this.props.inputMovies} updatingMovies = {this.updatingMovies}/>
+      <MovieAdded movieName = {this.addMovies} />
+
+       <MovieSearch searchList = {this.state.movieArray} updatingMovies = {this.updatingMovies}/>
 
       { this.state.newMovieArray.length === 0 &&
         <h2>
-          {this.props.inputMovies.map(movie =>
-       <MovieList movie= {movie.title} />
+          {this.state.movieArray.map(movie =>
+       <MovieList movie= {movie} />
        )}
         </h2>
       }
-      {this.state.newMovieArray.map(movie =>
+       {this.state.newMovieArray.map(movie =>
       <UpdateMovieList movie = {movie}/>
       )}
+
     </div>
   )
  }
